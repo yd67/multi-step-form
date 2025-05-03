@@ -32,7 +32,7 @@
                 {{ p.price * 10 }}/yrs</span
               >
               <span class="block text-sm text-marine-blue"
-                >2 months free</span
+                >{{ discount }} months free</span
               >
             </div>
           </div>
@@ -76,43 +76,28 @@
   <script setup>
   import FormHead from "./content/FormHead.vue";
   import { computed, onMounted, watch } from "vue";
-  
-  const plans = [
-    {
-      id: 1,
-      name: "Arcade",
-      price: 9,
-      icon: new URL("@/assets/images/icon-arcade.svg", import.meta.url).href,
-    },
-    {
-      id: 3,
-      name: "Advanced",
-      price: 12,
-      icon: new URL("@/assets/images/icon-advanced.svg", import.meta.url).href,
-    },
-    {
-      id: 4,
-      name: "Pro",
-      price: 15,
-      icon: new URL("@/assets/images/icon-pro.svg", import.meta.url).href,
-    },
-  ];
-  
+  import { monthForYear } from "@/composables/usePlanPricing.vue";
+
+  defineProps({
+    plans: Array
+  })
+
   const myModel = defineModel({
     selectedPlan: Object,
     isYearlyPlan: Boolean,
   });
+
+  const discount = 12 - monthForYear;
+  const isValid = computed(() => myModel.value.selectedPlan != null ? true : false );
   
   function handlePlanSelect(plan) {
     myModel.value.selectedPlan = plan;
   }
-  
+
   function toggleBilling() {
     myModel.value.isYearlyPlan = !myModel.value.isYearlyPlan;
   }
-  
-  const isValid = computed(() => myModel.value.selectedPlan != null ? true : false );
-  
+
   const emit = defineEmits(["isStepValid"]);
   watch(isValid, (newValue) => {
     emit("isStepValid", newValue);

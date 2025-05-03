@@ -62,11 +62,7 @@
   
   function handleAddOnsSelect(a) {
     const index = myModel.value.indexOf(a.id);
-    if (index === -1) {
-      myModel.value.push(a.id);
-    } else {
-      myModel.value.splice(index, 1);
-    }
+    index === -1 ? myModel.value.push(a.id) : myModel.value.splice(index, 1)
   }
   </script>
   

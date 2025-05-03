@@ -1,74 +1,55 @@
 <script>
-import { computed } from 'vue';
+import { computed } from "vue";
 
-export const monthForYear = 10
+export const monthForYear = 10;
 
-export function useCalculatePrice(planData,addOnsData = []) {
 
-    const isYearlyPlan = planData.isYearlyPlan
+export function useCalculatePrice(planData, addOnsData = []) {
+  const isYearlyPlan = planData.isYearlyPlan;
 
-    const yearlyPrice = computed( () => {
-        const yearsPlanPrice = planData.selectedPlan.price * monthForYear
-        const yearlyAddOns = addOnsData.reduce((sum, a) => sum + (a.price * monthForYear), 0);
+  const yearlyPrice = computed(() => {
+    const yearsPlanPrice = planData.selectedPlan.price * monthForYear;
 
-        return yearlyAddOns + yearsPlanPrice;
-    } )
+    const yearlyAddOns = addOnsData.reduce(
+      (sum, a) => sum + a.price * monthForYear,
+      0
+    );
 
-    const monthlyPrice = computed( () => {
-        const monthlyAddOns = addOnsData.reduce((sum, a) => sum + (a.price), 0);
-        return monthlyAddOns + planData.selectedPlan.price
-    })
+    return yearlyAddOns + yearsPlanPrice;
+  });
 
-    const total = computed(() => {
-        if (isYearlyPlan) {
-            return yearlyPrice
-        }
-        return monthlyPrice
-    })
+  const monthlyPrice = computed(() => {
+    const monthlyAddOns = addOnsData.reduce((sum, a) => sum + a.price, 0);
+    return monthlyAddOns + planData.selectedPlan.price;
+  });
 
-    const planPrice = computed(() => {
-        if (isYearlyPlan) {
-            return (planData.selectedPlan.price * monthForYear)
-        }
-        return planData.selectedPlan.price
-    })
+  const total = computed(() => (isYearlyPlan ? yearlyPrice : monthlyPrice));
 
-    return {
-        monthForYear,
-        planPrice,
-        total
-    }
+  const planPrice = computed(() =>
+    isYearlyPlan
+      ? planData.selectedPlan.price * monthForYear
+      : planData.selectedPlan.price
+  );
+
+  return {
+    monthForYear,
+    planPrice,
+    total,
+  };
 }
+
 
 export function useCustomSuffix(isYearlyPlan = false) {
+  const totalSuffix = computed(() =>
+    isYearlyPlan ? "(per year)" : "(per Month)"
+  );
+  const smallSuffix = computed(() => (isYearlyPlan ? "/yr" : "/mo"));
+  const longSuffix = computed(() => (isYearlyPlan ? "(Yearly)" : "(Monthly)"));
 
-    const totalSuffix = computed( () => {
-        if (isYearlyPlan) {
-            return "(per year)"
-        }
-        return "(per Month)"
-    })
-
-    const smallSuffix = computed(() => {
-        if (isYearlyPlan) {
-            return "/yr"
-        }
-        return "/mo"
-    })
-
-    const longSuffix = computed(() => {
-        if (isYearlyPlan) {
-            return "(Yearly)"
-        }
-        return "(Monthly)"
-    })
-
-    return {
-        totalSuffix,
-        smallSuffix,
-        longSuffix
-    }
-
+  return {
+    totalSuffix,
+    smallSuffix,
+    longSuffix,
+  };
 }
-
 </script>
