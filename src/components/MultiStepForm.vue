@@ -27,6 +27,13 @@
             @isStepValid="responseValidationButton"
           ></StepPlans>
 
+          <StepAddOns 
+            v-if="currentStep === 3"
+            v-model:selectedAddOns="selectedAddOns"
+            :addOns="AddOns"
+            :isYearlyPlan="planData.isYearlyPlan"
+            ></StepAddOns>
+
           <div class="bg-white-t fixed md:static bottom-0 right-0 left-0">
             <FormFooter
               :disabledNext="!isNextValid"
@@ -49,6 +56,7 @@ import StepInfos from "./step/StepInfos.vue";
 import FormFooter from "./step/content/FormFooter.vue";
 import ThankYou from "./ThankYou.vue";
 import StepPlans from "./step/StepPlans.vue";
+import StepAddOns from "./step/StepAddOns.vue";
 
 const steps = [
   {
@@ -107,4 +115,29 @@ const backStep = () => {
     currentStep.value--;
   }
 };
+
+
+// ############# ADDONS #####################
+
+const selectedAddOns = ref([])
+const AddOns = [
+  {
+    id: 1,
+    label: "Online service",
+    description: "Access to multiplayer games",
+    price: 1,
+  },
+  {
+    id: 2,
+    label: "Larger storage",
+    description: "Extra 1TB of cloud save",
+    price: 2,
+  },
+  {
+    id: 3,
+    label: "Customizable Profile",
+    description: "Custom theme on your profile",
+    price: 2,
+  },
+];
 </script>
