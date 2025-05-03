@@ -21,6 +21,12 @@
             @isStepValid="responseValidationButton"
           ></StepInfos>
 
+          <StepPlans
+            v-if="currentStep === 2"
+            v-model="planData"
+            @isStepValid="responseValidationButton"
+          ></StepPlans>
+
           <div class="bg-white-t fixed md:static bottom-0 right-0 left-0">
             <FormFooter
               :disabledNext="!isNextValid"
@@ -42,6 +48,7 @@ import FormNav from "./FormNav.vue";
 import StepInfos from "./step/StepInfos.vue";
 import FormFooter from "./step/content/FormFooter.vue";
 import ThankYou from "./ThankYou.vue";
+import StepPlans from "./step/StepPlans.vue";
 
 const steps = [
   {
@@ -76,6 +83,11 @@ const infosData = ref({
   name: "",
   email: "",
   phoneNumber: "",
+});
+
+const planData = ref({
+  selectedPlan: null,
+  isYearlyPlan: false,
 });
 
 const responseValidationButton = (r) => {
