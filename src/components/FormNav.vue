@@ -31,29 +31,8 @@ import { useIsMobile } from "@/composables/useIsMobile.vue";
 
 const props = defineProps({
   currentStep: Number,
+  steps: Object,
 });
 
 const isMobile = useIsMobile().isMobile;
-const steps = [
-  {
-    step: 1,
-    label: "Step 1",
-    description: "Your info",
-  },
-  {
-    step: 2,
-    label: "Step 2",
-    description: "Select plan",
-  },
-  {
-    step: 3,
-    label: "Step 3",
-    description: " Add-ons",
-  },
-  {
-    step: 4,
-    label: "Step 4",
-    description: "Summary",
-  },
-];
 </script>
