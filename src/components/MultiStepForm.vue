@@ -34,6 +34,13 @@
             :isYearlyPlan="planData.isYearlyPlan"
             ></StepAddOns>
 
+          <StepSummary 
+            v-if="currentStep === 4"
+            @changePlan="changePlan"
+            :addOns="selectedAddOnsDetails"
+            :plan="planData"
+          ></StepSummary>
+
           <div class="bg-white-t fixed md:static bottom-0 right-0 left-0">
             <FormFooter
               :disabledNext="!isNextValid"
@@ -50,13 +57,14 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import FormNav from "./FormNav.vue";
-import StepInfos from "./step/StepInfos.vue";
 import FormFooter from "./step/content/FormFooter.vue";
-import ThankYou from "./ThankYou.vue";
+import StepInfos from "./step/StepInfos.vue";
 import StepPlans from "./step/StepPlans.vue";
 import StepAddOns from "./step/StepAddOns.vue";
+import StepSummary from "./step/StepSummary.vue";
+import ThankYou from "./ThankYou.vue";
 
 const steps = [
   {
@@ -140,4 +148,14 @@ const AddOns = [
     price: 2,
   },
 ];
+
+// ############# SUMMARY #####################
+const changePlan = () => {
+  currentStep.value = 2
+}
+
+const selectedAddOnsDetails = computed(() =>
+    AddOns.filter(addOn => selectedAddOns.value.includes(addOn.id))
+)
+
 </script>
